@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="stylesheet" href="assets/leaflet/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="assets/leaflet/leaflet.ie.css" /><![endif]-->
-<script src="assets/leaflet/leaflet.js"></script>
 <style>
     body {
       padding: 0;
@@ -19,6 +18,7 @@
 <body>
 <div id="map">
 </div>
+<script src="assets/leaflet/leaflet.js"></script>
 <script>
     var points = [
       {
@@ -1271,12 +1271,18 @@
     });
     var featuresLayer = L.featureGroup(markers);
 
-    var map = L.map('map');
+    var cityTilesLayer = L.tileLayer('cache/{z}/{x}/{y}.png', {
+      maxZoom: 15,
+      minZoom: 13
+    });
 
-    L.tileLayer('cache/{z}/{x}/{y}.png', {
-      maxZoom: 15
-    }).addTo(map);
+    var southWest = new L.LatLng(-38.796,-62.418),
+        northEast = new L.LatLng(-38.648,-62.135),
+        cityBounds = new L.LatLngBounds(southWest, northEast);
 
+    var map = L.map('map', {maxBounds: cityBounds});
+
+    cityTilesLayer.addTo(map);
     featuresLayer.addTo(map);
 
     function onLocationFound(e) {
