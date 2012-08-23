@@ -22,7 +22,7 @@
 <script>
 		var map = L.map('map');
 		L.tileLayer('cache/{z}/{x}/{y}.png', {
-			maxZoom: 18
+			maxZoom: 15
 		}).addTo(map);
 		function onLocationFound(e) {
 			var radius = e.accuracy / 2;
@@ -35,7 +35,7 @@
 		}
 		map.on('locationfound', onLocationFound);
 		map.on('locationerror', onLocationError);
-		map.locate({setView: true, maxZoom: 16});
+		map.locate({setView: true, maxZoom: 15});
 	</script>
 </body>
 </html>
