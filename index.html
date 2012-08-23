@@ -1264,10 +1264,25 @@
         "lat" : -38.694700151008,
       }
     ];
+
+    var onMarkerClick = function(e) {
+      var latlng = e.target.getLatLng(),
+          text = e.target.options.title;
+
+      L.popup({offset: new L.Point(1,-35)})
+        .setLatLng(latlng)
+        .setContent(text)
+        .openOn(map);
+
+      map.panTo(latlng);
+    };
+
     var markers = points.map(function(marker) {
-      return L.marker([marker.lat, marker.lon], {
+      var lmarker = L.marker([marker.lat, marker.lon], {
         title: marker.text
       });
+      lmarker.on('click', onMarkerClick);
+      return lmarker
     });
     var featuresLayer = L.featureGroup(markers);
 
