@@ -1244,8 +1244,8 @@ var points = [
 ];
 
 var onMarkerClick = function(e) {
-  var latlng = e.target.getLatLng(),
-      text = e.target.options.title;
+  var latlng = e.layer.getLatLng(),
+      text = e.layer.options.title;
 
   L.popup({offset: new L.Point(1,-35)})
     .setLatLng(latlng)
@@ -1259,10 +1259,11 @@ var markers = points.map(function(marker) {
   var lmarker = L.marker([marker.lat, marker.lon], {
     title: marker.text
   });
-  lmarker.on('click', onMarkerClick);
   return lmarker
 });
+
 var featuresLayer = L.featureGroup(markers);
+featuresLayer.on('click', onMarkerClick);
 
 var cityTilesLayer = L.tileLayer('cache/{z}/{x}/{y}.png', {
   maxZoom: 15,
