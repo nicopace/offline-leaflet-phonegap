@@ -1274,7 +1274,21 @@ var southWest = new L.LatLng(-38.796,-62.418),
     northEast = new L.LatLng(-38.648,-62.135),
     cityBounds = new L.LatLngBounds(southWest, northEast);
 
-var map = L.map('map', {maxBounds: cityBounds});
+
+// Disable webkit 3d CSS transformations for tile positioning
+// Causes lots of flicker in PhoneGap for some reason...
+L.Browser.webkit3d = false;
+options = {maxBounds: cityBounds};
+if (navigator.userAgent.match(/Android 2/)) {
+  options.doubleClickZoom = false;
+  options.touchZoom = false;
+  // Android 2.x
+  // @todo enable the pinch-zoom plugin
+} else {
+  options.touchZoom = true;
+  options.zoomControl = false;
+}
+var map = L.map('map', options);
 
 cityTilesLayer.addTo(map);
 featuresLayer.addTo(map);
